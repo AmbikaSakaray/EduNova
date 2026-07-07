@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: edunova_db
+    environment:
+      POSTGRES_DB: edunova_db
+      POSTGRES_USER: edunova_admin
+      POSTGRES_PASSWORD: secure_db_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - edunova_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: edunova_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - edunova_network
+
+  web:
+    build: .
+    container_name: edunova_backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://edunova_admin:secure_db_password_2026@db:5432/edunova_db
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=django-insecure-key-for-local-dev-2026!
+      - DEBUG=True
+    depends_on:
+      - db
+      - redis
+    networks:
+      - edunova_network
+
+  celery_worker:
+    build: .
+    container_name: edunova_celery_worker
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgres://edunova_admin:secure_db_password_2026@db:5432/edunova_db
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=django-insecure-key-for-local-dev-2026!
+    depends_on:
+      - redis
+      - db
+    networks:
+      - edunova_network
+
+  celery_beat:
+    build: .
+    container_name: edunova_celery_beat
+    command: celery -A config beat --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgres://edunova_admin:secure_db_password_2026@db:5432/edunova_db
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=config.settings.local
+      - SECRET_KEY=django-insecure-key-for-local-dev-2026!
+    depends_on:
+      - redis
+      - db
+    networks:
+      - edunova_network
+
+volumes:
+  postgres_data:
+
+networks:
+  edunova_network:
+    driver: bridge

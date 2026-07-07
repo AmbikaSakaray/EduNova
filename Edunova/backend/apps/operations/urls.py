@@ -1,0 +1,56 @@
+from django.urls import path
+from .views import (
+    BookListCreateView, BookDetailView,
+    BookIssueListCreateView, BookIssueDetailView,
+    BusRouteListCreateView, BusRouteDetailView, BusGPSLogIngestView,
+    HostelRoomListCreateView, HostelRoomDetailView,
+    InventoryAssetListCreateView, InventoryAssetDetailView,
+    HostelListCreateView, HostelDetailView,
+    HostelAllocationListCreateView, HostelAllocationDetailView,
+    VehicleListCreateView, VehicleDetailView,
+    BusRouteStopListCreateView, BusRouteStopDetailView,
+    TransportAllocationListCreateView, TransportAllocationDetailView,
+    BusMaintenanceLogListCreateView, BusMaintenanceLogDetailView,
+    InventoryTransactionListCreateView, InventoryTransactionDetailView,
+    VisitorManagementListCreateView, VisitorManagementDetailView,
+    PTMBookingListCreateView, PTMBookingDetailView,
+    ParentFeedbackListCreateView, ParentFeedbackDetailView,
+)
+
+urlpatterns = [
+    path('library/books/', BookListCreateView.as_view(), name='book_list_create'),
+    path('library/books/<uuid:pk>/', BookDetailView.as_view(), name='book_detail'),
+    path('library/', BookIssueListCreateView.as_view(), name='book_issue_list_create'),
+    path('library/<uuid:pk>/', BookIssueDetailView.as_view(), name='book_issue_detail'),
+
+    path('transport/', BusRouteListCreateView.as_view(), name='bus_route_list_create'),
+    path('transport/<uuid:pk>/', BusRouteDetailView.as_view(), name='bus_route_detail'),
+    path('transport/gps/', BusGPSLogIngestView.as_view(), name='bus_gps_log_ingest'),
+    path('transport/vehicles/', VehicleListCreateView.as_view(), name='vehicle_list_create'),
+    path('transport/vehicles/<uuid:pk>/', VehicleDetailView.as_view(), name='vehicle_detail'),
+    path('transport/stops/', BusRouteStopListCreateView.as_view(), name='bus_route_stop_list_create'),
+    path('transport/stops/<uuid:pk>/', BusRouteStopDetailView.as_view(), name='bus_route_stop_detail'),
+    path('transport/allocations/', TransportAllocationListCreateView.as_view(), name='transport_allocation_list_create'),
+    path('transport/allocations/<uuid:pk>/', TransportAllocationDetailView.as_view(), name='transport_allocation_detail'),
+    path('transport/maintenance/', BusMaintenanceLogListCreateView.as_view(), name='bus_maintenance_log_list_create'),
+    path('transport/maintenance/<uuid:pk>/', BusMaintenanceLogDetailView.as_view(), name='bus_maintenance_log_detail'),
+
+    path('hostel/', HostelRoomListCreateView.as_view(), name='hostel_room_list_create'),
+    path('hostel/<uuid:pk>/', HostelRoomDetailView.as_view(), name='hostel_room_detail'),
+    path('hostel/buildings/', HostelListCreateView.as_view(), name='hostel_list_create'),
+    path('hostel/buildings/<uuid:pk>/', HostelDetailView.as_view(), name='hostel_detail'),
+    path('hostel/allocations/', HostelAllocationListCreateView.as_view(), name='hostel_allocation_list_create'),
+    path('hostel/allocations/<uuid:pk>/', HostelAllocationDetailView.as_view(), name='hostel_allocation_detail'),
+
+    path('inventory/', InventoryAssetListCreateView.as_view(), name='inventory_list_create'),
+    path('inventory/<uuid:pk>/', InventoryAssetDetailView.as_view(), name='inventory_detail'),
+    path('inventory/transactions/', InventoryTransactionListCreateView.as_view(), name='inventory_transaction_list_create'),
+    path('inventory/transactions/<uuid:pk>/', InventoryTransactionDetailView.as_view(), name='inventory_transaction_detail'),
+
+    path('visitors/', VisitorManagementListCreateView.as_view(), name='visitor_management_list_create'),
+    path('visitors/<uuid:pk>/', VisitorManagementDetailView.as_view(), name='visitor_management_detail'),
+    path('ptm-bookings/', PTMBookingListCreateView.as_view(), name='ptm_booking_list_create'),
+    path('ptm-bookings/<uuid:pk>/', PTMBookingDetailView.as_view(), name='ptm_booking_detail'),
+    path('parent-feedback/', ParentFeedbackListCreateView.as_view(), name='parent_feedback_list_create'),
+    path('parent-feedback/<uuid:pk>/', ParentFeedbackDetailView.as_view(), name='parent_feedback_detail'),
+]
