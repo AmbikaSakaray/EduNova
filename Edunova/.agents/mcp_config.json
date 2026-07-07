@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "edunova-db": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:Javeed405210@db.tvcygfmzcuavyiujiksv.supabase.co:5432/postgres"
+      ]
+    },
+    "edunova-files": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:/Users/Nelli Supriya/OneDrive/Desktop/Edunova"
+      ]
+    }
+  }
+}
